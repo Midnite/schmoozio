@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
+from typing import Optional
 
 class UserBase(BaseModel):
     username: str
@@ -13,6 +14,7 @@ class User(UserBase):
     created_at: datetime
     class Config:
         from_attributes = True
+        orm_mode = True
         
 class ConversationBase(BaseModel):
     conversation_name: str
@@ -54,3 +56,10 @@ class Participant(ParticipantBase):
     
     class Config:
         from_attributes = True
+
+class TokenData(BaseModel):
+    username: Optional[str] = None
+    
+class LoginData(BaseModel):
+    username: str
+    password: str

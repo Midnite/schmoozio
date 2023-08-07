@@ -4,7 +4,6 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
-
 class User(Base):
     __tablename__ = "users"
 
@@ -53,3 +52,6 @@ class Participant(Base):
     user = relationship("User", back_populates="participant")
     conversation = relationship("Conversation", back_populates="participant")
 
+# class TokenData(BaseModel):
+#     username: str
+#     password: str

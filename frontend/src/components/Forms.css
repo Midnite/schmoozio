@@ -1,0 +1,53 @@
+    form button, input[type="submit"], input[type="button"] {
+        background-color: #0557af;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    form button:hover, input[type="submit"]:hover, input[type="button"]:hover {
+        background-color: #021e3b;
+    }
+    
+    form input, input[type="text"], input[type="email"], input[type="password"] {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        display: block;
+        width: 100%; 
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    input:focus {
+        outline: none;
+        border: 1px solid #000000;
+    }
+
+    input::placeholder {
+        color: #aaa;  
+        opacity: 1;
+    }
+
+    ::-webkit-input-placeholder {
+        color: #aaa;
+    }
+    ::-moz-placeholder {
+        color: #aaa;
+        opacity: 1;
+    }
+    :-ms-input-placeholder {
+        color: #aaa;
+    }
+
+    .form-container {
+        margin: 20px 0;
+        max-width: 60%;
+    }
+
+    .error-message {
+        color: red;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }

@@ -1,4 +1,5 @@
 import React, { useState, FormEvent } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 
 interface LoginFormProps {
     setLoggedInUser: React.Dispatch<React.SetStateAction<string | null>>;
@@ -8,6 +9,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLoggedInUser }) => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const { setToken } = useAuth();
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -27,6 +29,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLoggedInUser }) => {
             localStorage.setItem('token', data.access_token);
             alert('Logged in successfully');
             setLoggedInUser(username);
+            setToken(data.access_token);
         } else {
             setErrorMessage(data.detail || 'Error logging in');
         }

@@ -3,6 +3,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from app import schemas, models
 from datetime import timedelta
+from typing import List
 from database import get_db
 import auth
 from schemas import LoginData
@@ -22,6 +23,20 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db.refresh(db_user)
 
     return schemas.User.from_orm(db_user)
+
+@router.get("/conversations", response_model=List[schemas.Conversation])
+def list_user_conversations(
+    db: Session = Depends(get_db),
+    current_user: schemas.User = Depends(auth.get_current_user)
+):
+    user_conversations = (
+        db.query(models.Conversation)
+        .join(models.Participant, models.Participant.conversation_id == models.Conversation.conversation_id)
+        .filter(models.Participant.user_id == current_user.user_id)
+        .all()
+    )
+
+    return user_conversations
 
 #FastAPI resolves routes in the order they are defined 
 # so leave this here before the /{user_id} route
@@ -58,5 +73,4 @@ def login_for_access_token(data: LoginData = Body(...), db: Session = Depends(ge
     )
 
     return {"access_token": access_token, "token_type": "bearer"}
-
 

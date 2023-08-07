@@ -27,6 +27,7 @@ class Conversation(ConversationBase):
     created_at: datetime
     class Config:
         from_attributes = True
+        orm_mode=True
 
 class MessageBase(BaseModel):
     conversation_id: int
@@ -51,11 +52,11 @@ class ParticipantCreate(ParticipantBase):
     pass
 
 class Participant(ParticipantBase):
-    id: int
+    participant_id: int
     conversation_id: int
-    
     class Config:
         from_attributes = True
+        orm_mode=True
 
 class TokenData(BaseModel):
     username: Optional[str] = None

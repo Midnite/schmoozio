@@ -16,7 +16,6 @@ class User(Base):
     messages = relationship("Message", back_populates="user")
     participant = relationship("Participant", back_populates="user")
 
-
 class Conversation(Base):
     __tablename__ = "conversations"
 
@@ -26,7 +25,6 @@ class Conversation(Base):
 
     messages = relationship("Message", back_populates="conversation")
     participant = relationship("Participant", back_populates="conversation")
-
 
 class Message(Base):
     __tablename__ = "messages"
@@ -40,7 +38,6 @@ class Message(Base):
     user = relationship("User", back_populates="messages")
     conversation = relationship("Conversation", back_populates="messages")
 
-
 class Participant(Base):
     __tablename__ = "participants"
 
@@ -51,7 +48,3 @@ class Participant(Base):
 
     user = relationship("User", back_populates="participant")
     conversation = relationship("Conversation", back_populates="participant")
-
-# class TokenData(BaseModel):
-#     username: str
-#     password: str

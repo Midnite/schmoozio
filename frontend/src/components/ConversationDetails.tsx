@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import ChatWindow from './ChatWindow';
 import { useAuth } from '../contexts/AuthContext';
+import InviteUsers from "./InviteUsers";
+import ReceivedInvites from "./ReceivedInvites";
+import { User, Conversation } from '../SharedTypes';
 
-interface Conversation {
-    conversation_id: number;
-    conversation_name: string;
+interface ConversationDetailsProps {
+    conversation: Conversation;
+    user: User;
 }
 
 interface Participant {
     user_id: number;
+    username: string;
     is_owner: boolean;
 }
 
-const ConversationDetails: React.FC<{ conversation: Conversation }> = ({ conversation }) => {
-    const [participants, setParticipants] = useState<Participant[]>([]);
+const ConversationDetails: React.FC<ConversationDetailsProps> = ({ conversation, user }) => {    const [participants, setParticipants] = useState<Participant[]>([]);
+    const [chatOpen, setChatOpen] = useState(false);
     const { token } = useAuth();
 
     useEffect(() => {
@@ -34,11 +39,21 @@ const ConversationDetails: React.FC<{ conversation: Conversation }> = ({ convers
             <ul>
                 {participants.map(participant => (
                     <li key={participant.user_id}>
-                        User ID: {participant.user_id} {participant.is_owner && '(Owner)'}
+                        Username: {participant.username} {participant.is_owner && '(Owner)'}
                     </li>
                 ))}
             </ul>
-        </div>
+            {!chatOpen && <button onClick={() => setChatOpen(true)}>Open Chat</button>}
+            {chatOpen && <ChatWindow conversationId={conversation.conversation_id} onClose={() => setChatOpen(false)} />}        
+                <div>
+                    <InviteUsers 
+                    userId={user.user_id} 
+                    conversationId={conversation.conversation_id}
+                    conversationName={conversation.conversation_name} 
+                    invitingEmail={user.email}/>
+                    <ReceivedInvites userId={user.user_id} />
+                </div>
+            </div>
     );
 };
 

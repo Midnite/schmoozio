@@ -12,6 +12,7 @@ class UserCreate(UserBase):
 class User(UserBase):
     user_id: int
     created_at: datetime
+
     class Config:
         from_attributes = True
         orm_mode = True
@@ -40,13 +41,21 @@ class MessageCreate(MessageBase):
 class Message(MessageBase):
     message_id: int
     sent_at: datetime
+    user: UserBase
     class Config:
         from_attributes = True
         populate_by_name = True
+        extra = "allow"
+        orm_mode=True
 
 class ParticipantBase(BaseModel):
     user_id: int
     is_owner: bool = False
+    username: str
+    
+class ParticipantDetail(BaseModel):
+    participant_id: int
+    username: str
 
 class ParticipantCreate(ParticipantBase):
     pass
@@ -64,3 +73,22 @@ class TokenData(BaseModel):
 class LoginData(BaseModel):
     username: str
     password: str
+
+class InvitationBase(BaseModel):
+    conversation_id: int
+    conversation_name: str  # Add this line
+    inviting_user_id: int
+    inviting_user_email: EmailStr  # Add this line
+    invited_email: EmailStr
+
+class InvitationCreate(InvitationBase):
+    pass
+
+class Invitation(InvitationBase):
+    id: int
+    token: str
+    created_at: datetime
+    used: bool
+
+    class Config:
+        orm_mode = True

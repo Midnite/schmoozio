@@ -9,3 +9,7 @@ In `frontend` rub `npm start`
 
 In `tests` run `python test_main.py`
 
+# Alembic
+
+```alembic revision --autogenerate -m "message here"
+alembic upgrade head```

@@ -1,13 +1,15 @@
 import React, { useState, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Forms.css';
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
 const RegisterForm: React.FC = () => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [errorMessage, setErrorMessage] = useState<string | null>(null); // For displaying error messages
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const [emailError, setEmailError] = useState<string | null>(null);
 
@@ -34,9 +36,9 @@ const RegisterForm: React.FC = () => {
 
         if (response.status === 200) {
             alert('Registered successfully');
-            // Redirect or perform some action
+            navigate("/login");
         } else {
-            const data = await response.json(); // Assuming server sends back JSON data with error details
+            const data = await response.json();
             if (data.detail && typeof data.detail === 'string') {
                 setErrorMessage(data.detail);
             } else {

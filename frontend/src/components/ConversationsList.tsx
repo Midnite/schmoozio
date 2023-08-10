@@ -1,9 +1,4 @@
-import React from 'react';
-
-interface Conversation {
-  id: number;
-  conversation_name: string;
-}
+import { Conversation } from '../SharedTypes';
 
 interface ConversationsListProps {
   conversations: Conversation[];
@@ -14,7 +9,7 @@ function ConversationsList({ conversations, onSelect }: ConversationsListProps) 
     return (
         <ul>
             {conversations.map(conv => (
-                <li key={conv.id} onClick={() => onSelect(conv)}>
+                <li key={conv.conversation_id} onClick={() => onSelect(conv)}>
                     {conv.conversation_name}
                 </li>
             ))}

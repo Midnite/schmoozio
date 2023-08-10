@@ -1,12 +1,13 @@
 import React, { useState, FormEvent, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import ConversationDetails from './ConversationDetails';
+import { User, Conversation } from '../SharedTypes';
 
-interface Conversation {
-    conversation_id: number;
-    conversation_name: string;
+interface ConversationCreatorProps {
+    user: User
 }
-const ConversationCreator: React.FC = () => {
+
+const ConversationCreator: React.FC<ConversationCreatorProps> = ({ user }) => {    
     const [conversationName, setConversationName] = useState<string>('');
     const [conversations, setConversations] = useState<Conversation[]>([]);
     const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
@@ -78,16 +79,17 @@ const ConversationCreator: React.FC = () => {
                                 onClick={() => setSelectedConversation(conversation)}
                                 style={{ cursor: 'pointer' }}
                             >
-                                {conversation.conversation_name}
+                                {conversation.conversation_name} - 
+                                 #{conversation.conversation_id}
                             </div>
                         ))}
                     </div>
                 ) : (
-                    <h2>No conversations yet</h2>
+                    <h3>No conversations yet</h3>
                 )}
             </div>
 
-            {selectedConversation && <ConversationDetails conversation={selectedConversation} />}
+            {selectedConversation && <ConversationDetails conversation={selectedConversation} user={user}/>}
         </div>
     );
 };

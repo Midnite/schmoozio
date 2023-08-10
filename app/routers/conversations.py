@@ -5,28 +5,10 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from app import schemas, models
 from database import get_db
+from typing import List
 import auth
 
 router = APIRouter()
-
-# @router.post("/", response_model=schemas.Conversation)
-# def create_conversation(
-#     conversation: schemas.ConversationCreate,
-#     db: Session = Depends(get_db),
-#     current_user: schemas.User = Depends(auth.get_current_user)
-# ):
-#     db_conversation = models.Conversation(**conversation.dict())
-#     db.add(db_conversation)
-#     db.commit()
-#     db.refresh(db_conversation)
-
-#     owner = models.Participant(user_id=current_user.user_id, conversation_id=db_conversation.conversation_id, is_owner=True)
-#     db.add(owner)
-#     db.commit()
-
-#     db.refresh(db_conversation)
-    
-#     return schemas.Conversation.from_orm(db_conversation)
 
 @router.post("/", response_model=schemas.Conversation)
 def create_conversation(
@@ -34,7 +16,6 @@ def create_conversation(
     db: Session = Depends(get_db),
     current_user: schemas.User = Depends(auth.get_current_user)
 ):
-    # Check if conversation name is empty or just whitespace
     if not conversation.conversation_name or conversation.conversation_name.strip() == "":
         return JSONResponse(status_code=400, content={"detail": "Conversation name cannot be empty."})
 
@@ -52,9 +33,20 @@ def create_conversation(
         
         return schemas.Conversation.from_orm(db_conversation)
     except IntegrityError:
-        db.rollback()  # Rollback the transaction in case of an error
+        db.rollback()
         return JSONResponse(status_code=400, content={"detail": "A conversation with that name already exists."})
 
+@router.get("/{conversation_id}/participants", response_model=List[schemas.ParticipantDetail])
+def get_participants_for_conversation(conversation_id: int, db: Session = Depends(get_db)):
+    participants_with_users = (
+        db.query(models.Participant, models.User.username)
+        .join(models.User, models.User.user_id == models.Participant.user_id)
+        .filter(models.Participant.conversation_id == conversation_id)
+        .all()
+    )
+    
+    result = [{"participant_id": item[0].participant_id, "username": item[1]} for item in participants_with_users]
+    return result
 
 @router.get("/{conversation_id}", response_model=schemas.Conversation)
 def read_conversation(conversation_id: int, db: Session = Depends(get_db)):

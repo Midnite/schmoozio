@@ -29,5 +29,17 @@ def create_participant(
 
 @router.get("/conversations/{conversation_id}/participants", response_model=List[schemas.Participant])
 def read_participants(conversation_id: int, db: Session = Depends(get_db)):
-    db_participants = db.query(models.Participant).filter(models.Participant.conversation_id == conversation_id).all()
-    return [schemas.Participant.from_orm(participant) for participant in db_participants]
+    participants_with_users = (
+        db.query(models.Participant, models.User.username)
+        .join(models.User, models.Participant.user_id == models.User.user_id)
+        .filter(models.Participant.conversation_id == conversation_id)
+        .all()
+    )
+
+    return [
+        schemas.Participant(**{
+            **to_dict(participant),
+            "username": username
+        })
+        for participant, username in participants_with_users
+    ]

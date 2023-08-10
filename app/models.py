@@ -48,3 +48,16 @@ class Participant(Base):
 
     user = relationship("User", back_populates="participant")
     conversation = relationship("Conversation", back_populates="participant")
+    
+class Invitation(Base):
+    __tablename__ = "invitations"
+
+    id = Column(Integer, primary_key=True, index=True)
+    token = Column(String, unique=True, index=True)
+    conversation_id = Column(Integer, ForeignKey("conversations.conversation_id"), nullable=False)
+    inviting_user_id = Column(Integer, ForeignKey("users.user_id"), nullable=False)
+    invited_email = Column(String, index=True, nullable=False)
+    inviting_user_email = Column(String, index=True, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    used = Column(Boolean, default=False)
+    conversation_name = Column(String, nullable=False)

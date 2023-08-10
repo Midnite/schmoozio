@@ -2,14 +2,14 @@ import React, { useState, FormEvent } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
 interface LoginFormProps {
-    setLoggedInUser: React.Dispatch<React.SetStateAction<string | null>>;
+    setLoggedInUser: (user: string | null) => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ setLoggedInUser }) => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const { setToken } = useAuth();
+    const { setToken, setUserId } = useAuth();
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -24,12 +24,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLoggedInUser }) => {
         });
     
         const data = await response.json();
+
         
         if (response.status === 200) {
             localStorage.setItem('token', data.access_token);
+            localStorage.setItem('userId', data.user_id.toString());  // Add this
             alert('Logged in successfully');
             setLoggedInUser(username);
             setToken(data.access_token);
+            setUserId(data.user_id.toString());  // Add this
         } else {
             setErrorMessage(data.detail || 'Error logging in');
         }

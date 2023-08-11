@@ -1,0 +1,22 @@
+.received-container {
+  background-color: #fafafa;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.received-details {
+  font-weight: bold;
+}
+
+.invite-actions {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.invite-actions button {
+  margin-right: 5px;
+}
+
+.invite-details {
+  font-weight: bold;
+}

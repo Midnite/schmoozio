@@ -20,17 +20,14 @@ def create_conversation(
         return JSONResponse(status_code=400, content={"detail": "Conversation name cannot be empty."})
 
     db_conversation = models.Conversation(**conversation.dict())
+    db.add(db_conversation)
+
+    owner = models.Participant(user_id=current_user.user_id, conversation_id=db_conversation.conversation_id, is_owner=True)
+    db.add(owner)
     
     try:
-        db.add(db_conversation)
         db.commit()
         db.refresh(db_conversation)
-        
-        owner = models.Participant(user_id=current_user.user_id, conversation_id=db_conversation.conversation_id, is_owner=True)
-        db.add(owner)
-        db.commit()
-        db.refresh(db_conversation)
-        
         return schemas.Conversation.from_orm(db_conversation)
     except IntegrityError:
         db.rollback()
@@ -39,13 +36,13 @@ def create_conversation(
 @router.get("/{conversation_id}/participants", response_model=List[schemas.ParticipantDetail])
 def get_participants_for_conversation(conversation_id: int, db: Session = Depends(get_db)):
     participants_with_users = (
-        db.query(models.Participant, models.User.username)
+        db.query(models.Participant.participant_id, models.User.username, models.Participant.is_owner)
         .join(models.User, models.User.user_id == models.Participant.user_id)
         .filter(models.Participant.conversation_id == conversation_id)
         .all()
     )
     
-    result = [{"participant_id": item[0].participant_id, "username": item[1]} for item in participants_with_users]
+    result = [{"participant_id": item[0], "username": item[1], "is_owner": item[2]} for item in participants_with_users]
     return result
 
 @router.get("/{conversation_id}", response_model=schemas.Conversation)

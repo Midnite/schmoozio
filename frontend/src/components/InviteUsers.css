@@ -1,0 +1,61 @@
+.invite-action {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+.invite-container input[type="email"]::placeholder {
+  font-style: italic;
+  color: #888;
+}
+
+.invite-container {
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.invite-container h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.invite-container input[type="email"] {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 80%;
+}
+
+.invite-container button {
+  padding: 8px 15px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.invite-container button:hover {
+  background-color: #0056b3;
+}
+
+.invite-container ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.invite-container ul li {
+  background-color: #efefef;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}

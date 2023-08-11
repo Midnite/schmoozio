@@ -1,14 +1,23 @@
-body, h1, h2, h3, p, ul, li, button, input, a {
+body,
+h1,
+h2,
+h3,
+p,
+ul,
+li,
+button,
+input,
+a {
   margin: 0;
   padding: 0;
   border: none;
-  font-family: 'Arial', sans-serif;
-  text-decoration: none; 
+  font-family: "Arial", sans-serif;
+  text-decoration: none;
 }
 
 body {
-  background-color: #f7f8fc; 
-  color: #333; 
+  background-color: #f7f8fc;
+  color: #333;
   font-size: 16px;
   line-height: 1.5;
   padding: 20px;
@@ -22,7 +31,9 @@ body {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   margin: 10px 0 10px;
 }
 
@@ -39,7 +50,9 @@ a:hover {
   color: #010f1e;
 }
 
-button, input[type="submit"], input[type="button"] {
+button,
+input[type="submit"],
+input[type="button"] {
   background-color: #0557af;
   color: #fff;
   padding: 10px 20px;
@@ -48,6 +61,8 @@ button, input[type="submit"], input[type="button"] {
   transition: background-color 0.3s ease;
 }
 
-form button:hover, input[type="submit"]:hover, input[type="button"]:hover {
+form button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
   background-color: #021e3b;
 }

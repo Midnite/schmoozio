@@ -39,7 +39,9 @@ def read_participants(conversation_id: int, db: Session = Depends(get_db)):
     return [
         schemas.Participant(**{
             **to_dict(participant),
-            "username": username
+            "username": username,
+            "is_owner": participant.is_owner
         })
         for participant, username in participants_with_users
     ]
+

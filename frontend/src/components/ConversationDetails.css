@@ -1,0 +1,46 @@
+.details-container {
+  background-color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.selected-conversation {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.participant-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.participant {
+  margin: 8px 0;
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+.participant-owner {
+  color: #777;
+  margin-left: 8px;
+  font-size: 0.8rem;
+}
+
+.invite-section {
+  border-top: 2px solid #ddd;
+  margin-top: 20px;
+  padding-top: 20px;
+}
+
+.open-chat-btn {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.message-input {
+  margin-bottom: 20px;
+}

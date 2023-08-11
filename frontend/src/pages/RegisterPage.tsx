@@ -1,5 +1,5 @@
-import React from 'react';
-import RegisterForm from '../components/RegisterForm';
+import React from "react";
+import RegisterForm from "../components/RegisterForm";
 
 const RegisterPage: React.FC = () => {
   return (
@@ -8,6 +8,6 @@ const RegisterPage: React.FC = () => {
       <RegisterForm />
     </div>
   );
-}
+};
 
 export default RegisterPage;

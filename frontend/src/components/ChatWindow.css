@@ -1,50 +1,49 @@
 .chat-window {
-    border: 1px solid #ddd;
-    max-width: 500px;
-    margin: 20px auto;
-    padding: 10px;
+  border: 1px solid #ddd;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 10px;
 }
 
 .messages {
-    max-height: 400px;
-    overflow-y: scroll;
-    padding: 10px;
-    border: 1px solid #ccc;
-    margin: 5px 10px;
+  max-height: 400px;
+  overflow-y: scroll;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin: 5px 10px;
 }
 
 button {
-    margin-right: 5px;
-    width: fit-content;
+  margin-right: 5px;
+  width: fit-content;
 }
 
 .messages div:nth-child(odd) {
-    background-color: rgb(235, 235, 235);
+  background-color: rgb(235, 235, 235);
 }
 
 .message-input {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .chat-window input {
-    font-family: 'Arial', sans-serif;
-    font-size: 14px;
-    padding: 5px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%; 
-    box-sizing: border-box; 
-    transition: border-color 0.3s;
+  font-family: "Arial", sans-serif;
+  font-size: 14px;
+  padding: 5px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
 }
 
 .chat-window input:hover {
-    border-color: #888;
+  border-color: #888;
 }
 
 .chat-window input::placeholder {
-    color: #aaa; 
+  color: #aaa;
 }
-

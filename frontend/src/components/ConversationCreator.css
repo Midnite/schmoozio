@@ -1,0 +1,57 @@
+.form-container {
+  background-color: #f7f7f7;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+  max-width: 600px;
+  margin: 20px;
+}
+
+.error-message {
+  background-color: #fdd;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #f77;
+  border-radius: 5px;
+  color: #900;
+  text-align: center;
+}
+
+.conversation-item {
+  padding: 10px 0;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.conversation-item:hover {
+  background-color: #eaeaea;
+}
+
+.conversation-heading {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.conversation-input {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 80%;
+}
+
+.conversation-button {
+  padding: 10px 15px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-bottom: 15px;
+}
+
+.conversation-button:hover {
+  background-color: #005faa;
+}

@@ -3,9 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from routers import users, conversations, participants, messages, invitations
 import uvicorn
-from database import get_db
+from middleware import LoggingMiddleware
 
 app = FastAPI()
+
 
 # for the frontend, figure out what to do with this
 app.add_middleware(
@@ -15,6 +16,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.add_middleware(LoggingMiddleware)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 

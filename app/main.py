@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from routers import users, conversations, participants, messages, invitations
+from routers import users, conversations, participants, messages, invitations, websocket
 import uvicorn
 from database import get_db
 
@@ -23,6 +23,7 @@ app.include_router(conversations.router, prefix="/conversations")
 app.include_router(participants.router)
 app.include_router(messages.router)
 app.include_router(invitations.router, prefix="/invitations")
+app.include_router(websocket.router)
 
 
 @app.get("/")

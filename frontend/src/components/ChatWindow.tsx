@@ -1,6 +1,6 @@
 import "./ChatWindow.css";
 import { useAuth } from "../contexts/AuthContext";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 
 interface Props {
   onClose: () => void;
@@ -12,29 +12,36 @@ const ChatWindow: React.FC<Props> = ({ onClose, conversationId }) => {
   const [content, setContent] = useState("");
   const { token, userId } = useAuth();
 
-  const fetchMessages = useCallback(async () => {
-    const response = await fetch(
-      `http://localhost:8000/conversations/${conversationId}/messages`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    if (!response.ok) {
-      const text = await response.text();
-      console.error("Error fetching messages:", text);
-      return;
-    }
-
-    const data = await response.json();
-    setMessages(data);
-  }, [token, conversationId]);
-
   useEffect(() => {
-    fetchMessages();
-  }, [fetchMessages]);
+    const socket = new WebSocket(`ws://localhost:8000/ws/${conversationId}`);
+
+    socket.onopen = () => {
+      console.log("WebSocket connection opened!");
+    };
+
+    // socket.onmessage = (event) => {
+    //   const message = JSON.parse(event.data);
+    //   setMessages((prevMessages) => [...prevMessages, message]);
+    // };
+
+    socket.onmessage = (event) => {
+      console.log("WebSocket message received:", event.data);
+      const message = JSON.parse(event.data);
+      setMessages((prevMessages) => [...prevMessages, message]);
+    };
+
+    socket.onerror = (event) => {
+      console.error("WebSocket Error", event);
+    };
+
+    socket.onclose = (event) => {
+      console.warn("WebSocket Closed", event);
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, [conversationId]);
 
   const sendMessage = async () => {
     const response = await fetch(
@@ -52,9 +59,8 @@ const ChatWindow: React.FC<Props> = ({ onClose, conversationId }) => {
         }),
       }
     );
+
     if (response.ok) {
-      const newMessage = await response.json();
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
       setContent("");
     } else {
       console.error("Error sending message:", await response.text());

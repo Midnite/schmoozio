@@ -18,9 +18,12 @@
 }
 
 .conversation-item {
-  padding: 10px 0;
+  padding: 10px;
   cursor: pointer;
   transition: background-color 0.2s;
+  border: 1px solid #f5efef;
+  border-radius: 15px;
+  margin: 5px auto;
 }
 
 .conversation-item:hover {

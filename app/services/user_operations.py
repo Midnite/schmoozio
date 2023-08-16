@@ -3,10 +3,38 @@ from sqlalchemy.orm import Session
 from app import schemas, models
 from datetime import timedelta
 import auth
+import re
+
+
+def validate_email(email: str) -> bool:
+    pattern = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+    if re.match(pattern, email):
+        return True
+    return False
+
+
+def validate_password(password: str) -> bool:
+    if (
+        len(password) >= 8 and
+        any(char.isdigit() for char in password) and
+        any(char.isupper() for char in password) and
+        any(char.islower() for char in password) and
+        any(char in "!@#$%^&*()_+{}:;<>,.?~" for char in password)
+    ):
+        return True
+    return False
 
 
 def create_new_user(user: schemas.UserCreate, db: Session):
-    db_user = db.query(models.User).filter(models.User.email == user.email).first()
+    if not validate_email(user.email):
+        raise HTTPException(status_code=400, detail="Invalid email format")
+
+    if not validate_password(user.password):
+        raise HTTPException(
+            status_code=400, detail="Password must be at least 8 characters, contain an uppercase letter, a lowercase letter, a digit, and a special character.")
+
+    db_user = db.query(models.User).filter(
+        models.User.email == user.email).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
     hashed_password = auth.get_password_hash(user.password)

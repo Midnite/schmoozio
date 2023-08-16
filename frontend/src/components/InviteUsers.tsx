@@ -42,11 +42,12 @@ const InviteUsers: React.FC<Props> = ({
         console.error(err);
         alert(err.detail);
       });
+    setEmail("");
   };
 
   return (
     <div className="invite-container">
-      <h3>Invite someone to conversation {conversationName}</h3>
+      <h3>Invite someone to conversation "{conversationName}"</h3>
 
       <div className="invite-action">
         <input

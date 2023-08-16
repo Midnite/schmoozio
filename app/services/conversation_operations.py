@@ -17,6 +17,8 @@ def create_new_conversation(
 
     db_conversation = models.Conversation(**conversation.dict())
     db.add(db_conversation)
+    db.commit()
+    db.refresh(db_conversation)
 
     owner = models.Participant(
         user_id=current_user.user_id,
@@ -24,12 +26,14 @@ def create_new_conversation(
         is_owner=True,
     )
     db.add(owner)
+    db.commit()
+    db.refresh(owner)
 
     try:
         db.commit()
         db.refresh(db_conversation)
         return schemas.Conversation.from_orm(db_conversation)
-    except IntegrityError:
+    except IntegrityError as e:
         db.rollback()
         return JSONResponse(
             status_code=400,

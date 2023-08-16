@@ -3,6 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { User, Conversation } from "../SharedTypes";
 import ConversationDetails from "./ConversationDetails";
 import React, { useState, FormEvent, useEffect } from "react";
+import ConversationsList from "./ConversationsList";
 interface ConversationCreatorProps {
   user: User;
 }
@@ -57,6 +58,7 @@ const ConversationCreator: React.FC<ConversationCreatorProps> = ({ user }) => {
         setErrorMessage(data.detail || "Error creating conversation");
       }
     }
+    setConversationName("");
   };
 
   return (
@@ -76,25 +78,18 @@ const ConversationCreator: React.FC<ConversationCreatorProps> = ({ user }) => {
         </button>
       </form>
 
-      <div>
-        {conversations.length > 0 ? (
-          <div>
-            <h2 className="conversation-heading">Your Conversations</h2>
-            {conversations.map((conversation) => (
-              <div
-                key={conversation.conversation_id}
-                onClick={() => setSelectedConversation(conversation)}
-                className="conversation-item"
-              >
-                {conversation.conversation_name} - #
-                {conversation.conversation_id}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <h3>No conversations yet</h3>
-        )}
-      </div>
+      {conversations.length > 0 ? (
+        <div>
+          <h2 className="conversation-heading">Your Conversations</h2>
+          <ConversationsList
+            conversations={conversations}
+            selectedConversation={selectedConversation}
+            onSelect={setSelectedConversation}
+          />
+        </div>
+      ) : (
+        <h3>No conversations yet</h3>
+      )}
 
       {selectedConversation && (
         <ConversationDetails conversation={selectedConversation} user={user} />

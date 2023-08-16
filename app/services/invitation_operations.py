@@ -13,7 +13,7 @@ def send_invitation(invitation: schemas.InvitationCreate, db: Session):
     if not user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="No user found with this email.",
+            detail="No user found with this email: " + invitation.invited_email,
         )
 
     conversation = (
@@ -52,7 +52,8 @@ def send_invitation(invitation: schemas.InvitationCreate, db: Session):
 
 def get_received_invitations(user_id: int, db: Session):
     user_email = (
-        db.query(models.User.email).filter(models.User.user_id == user_id).first()
+        db.query(models.User.email).filter(
+            models.User.user_id == user_id).first()
     )
     if not user_email:
         raise HTTPException(
@@ -78,7 +79,8 @@ def get_sent_invitations(user_id: int, db: Session):
 
 def invalidate_invitation(token: str, db: Session):
     db_invitation = (
-        db.query(models.Invitation).filter(models.Invitation.token == token).first()
+        db.query(models.Invitation).filter(
+            models.Invitation.token == token).first()
     )
     if not db_invitation:
         raise HTTPException(
@@ -93,7 +95,8 @@ def invalidate_invitation(token: str, db: Session):
 
 def accept_invitation(token: str, db: Session):
     db_invitation = (
-        db.query(models.Invitation).filter(models.Invitation.token == token).first()
+        db.query(models.Invitation).filter(
+            models.Invitation.token == token).first()
     )
     if not db_invitation:
         raise HTTPException(
@@ -134,7 +137,8 @@ def accept_invitation(token: str, db: Session):
 
 def decline_invitation(token: str, db: Session):
     db_invitation = (
-        db.query(models.Invitation).filter(models.Invitation.token == token).first()
+        db.query(models.Invitation).filter(
+            models.Invitation.token == token).first()
     )
     if not db_invitation:
         raise HTTPException(

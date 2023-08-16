@@ -4,6 +4,10 @@
   border-radius: 8px;
 }
 
+.hidden-section {
+  display: none;
+}
+
 .received-details {
   font-weight: bold;
 }
@@ -19,4 +23,14 @@
 
 .invite-details {
   font-weight: bold;
+}
+
+.arrow-icon {
+  display: inline-block;
+  transition: transform 0.3s ease;
+  margin-left: 10px;
+}
+
+.arrow-icon.open {
+  transform: rotate(180deg);
 }

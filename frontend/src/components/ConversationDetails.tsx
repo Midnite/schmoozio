@@ -11,7 +11,7 @@ interface ConversationDetailsProps {
 }
 
 interface Participant {
-  user_id: number;
+  participant_id: number;
   username: string;
   is_owner: boolean;
 }
@@ -48,7 +48,7 @@ const ConversationDetails: React.FC<ConversationDetailsProps> = ({
       <h4>Participants in conversation:</h4>
       <ul className="participant-list">
         {participants.map((participant) => (
-          <li key={participant.user_id} className="participant">
+          <li key={participant.participant_id} className="participant">
             User: {participant.username}
             {participant.is_owner && (
               <span className="participant-owner">(Owner)</span>

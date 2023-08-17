@@ -1,12 +1,12 @@
-from routers import messages
+from app.socketio_manager import sio
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer
-from routers import users, conversations, participants, messages, invitations
-import uvicorn
 from middleware import LoggingMiddleware
+from routers import messages
+from routers import users, conversations, participants, messages, invitations
 import socketio
-from app.socketio_manager import sio
+import uvicorn
 
 app = FastAPI()
 sio_app = socketio.ASGIApp(socketio_server=sio, other_asgi_app=app)
@@ -35,7 +35,6 @@ app.include_router(invitations.router, prefix="/invitations")
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
-
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

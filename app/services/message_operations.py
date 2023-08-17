@@ -7,13 +7,15 @@ def create_new_message(
 ):
     message_dict = message.dict()
     message_dict.pop("conversation_id", None)
-    db_message = models.Message(**message_dict, conversation_id=conversation_id)
+    db_message = models.Message(
+        **message_dict, conversation_id=conversation_id)
     db.add(db_message)
     db.commit()
     db.refresh(db_message)
     db.refresh(db_message.user)
 
-    user_data = {"username": db_message.user.username, "email": db_message.user.email}
+    user_data = {"username": db_message.user.username,
+                 "email": db_message.user.email}
     message_data = {
         "conversation_id": db_message.conversation_id,
         "user_id": db_message.user_id,

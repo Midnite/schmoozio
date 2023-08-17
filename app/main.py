@@ -1,11 +1,15 @@
+from routers import messages
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer
 from routers import users, conversations, participants, messages, invitations
 import uvicorn
 from middleware import LoggingMiddleware
+import socketio
+from app.socketio_manager import sio
 
 app = FastAPI()
+sio_app = socketio.ASGIApp(socketio_server=sio, other_asgi_app=app)
 
 
 # for the frontend, figure out what to do with this

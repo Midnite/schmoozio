@@ -1,6 +1,7 @@
 import "./ChatWindow.css";
 import { useAuth } from "../contexts/AuthContext";
 import React, { useState, useEffect, useCallback } from "react";
+import socketIOClient from "socket.io-client";
 
 interface Props {
   onClose: () => void;
@@ -32,10 +33,6 @@ const ChatWindow: React.FC<Props> = ({ onClose, conversationId }) => {
     setMessages(data);
   }, [token, conversationId]);
 
-  useEffect(() => {
-    fetchMessages();
-  }, [fetchMessages]);
-
   const sendMessage = async () => {
     const response = await fetch(
       `http://localhost:8000/conversations/${conversationId}/messages`,
@@ -53,13 +50,39 @@ const ChatWindow: React.FC<Props> = ({ onClose, conversationId }) => {
       }
     );
     if (response.ok) {
-      const newMessage = await response.json();
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
       setContent("");
     } else {
       console.error("Error sending message:", await response.text());
     }
   };
+
+  useEffect(() => {
+    const socket = socketIOClient("http://localhost:8000");
+
+    socket.on("connect", () => {
+      console.log("Socket connected:", socket.connected);
+    });
+
+    socket.emit("join_room", conversationId);
+    console.log(`Joined room: ${conversationId}`);
+
+    socket.on("new_message", (message) => {
+      console.log("Got new message: ", message);
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
+
+    fetchMessages();
+
+    socket.on("error", (error) => {
+      console.error("Socket error:", error);
+    });
+
+    return () => {
+      socket.emit("leave_room", conversationId);
+      console.log(`Left room: ${conversationId}`);
+      socket.disconnect();
+    };
+  }, [conversationId, fetchMessages]);
 
   return (
     <div className="chat-window">
